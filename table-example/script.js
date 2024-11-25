@@ -1,3 +1,72 @@
+const spinner= document.getElementById('spinner')
+const table = document.getElementById('data-table');
+const tableBody = document.getElementById('table-body');
+const pagination = document.getElementById('pagination');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const pageNumber = document.getElementById('page-number');
+
+
+let data = []
+
+// fetch data from API - from https://randomuser.me/
+async function fetchData() {
+    spinner.style.display = 'flex'; // show spinner
+    // table.style.display = 'none'; // hide table
+    // pagination.style.display = 'none'; // hide pagination
+    // pageNumber.innerText = '1'; // reset page number
+    try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await fetch('https://randomuser.me/api/?results=50');
+        const jsonData = await response.json();
+        data = jsonData.results;
+        console.log(data) // grab the data we need from here
+        displayTable(data)
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    } finally {
+        spinner.style.display = 'none'; // hide spinner
+        table.style.display = 'table'; // show table
+        pagination.style.display = 'block'; // show pagination
+    }
+}
+
+// Display table data
+function displayTable(dataToDisplay){
+    tableBody.innerText = ''; // clear table body
+    dataToDisplay.forEach(user => {
+        const row = 
+            `<tr>
+                <td data-lable="Name">${user.name.first} ${user.name.last}</td>
+                <td data-lable="Email">${user.email}</td>
+                <td data-lable="Username">${user.login.username}</td>
+                <td data-lable="Country">${user.location.country}</td>
+            </tr>`;
+        tableBody.insertAdjacentHTML('beforeend', row)
+
+    });
+
+}
+
+// startup
+fetchData()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
