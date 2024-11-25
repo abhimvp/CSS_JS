@@ -24,9 +24,12 @@ All the resources needed for the course can be found in this [Course Handbook](h
 ## Typing Test - Project
 
 - As usual let's make use of template folder to setup our project and copy it and paste and rename it to `Typing-test`
-- we can make use of autocompletions in vscode type in `div#text-container` and enter gives us <div id="text-container"></div>
+- we can make use of autocompletions in vscode type in `div#text-container` and enter gives us `<div id="text-container"></div>`
 - After building out MAIN UI components:
 
   ![alt text](Images/Typing-Test/image.png)
 
-- 
+- `Shuffle & Generate Text JS`: Above UI is sorted out , let's get into functionality.
+- We will be making use non-repeating words array from the author [repo](https://github.com/JacintoDesign/typing-test/blob/main/words.json) and copy the content from that file and add them into our project script.js file.
+- added the long text from the above words into the text-container
+  ![alt text](Images/Typing-Test/image_1.png)
