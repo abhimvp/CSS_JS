@@ -8,9 +8,10 @@ const pageNumber = document.getElementById('page-number');
 
 
 let data = []
+let sortedData = [];
 let currentPage = 1;
 const rowsPerPage = 10;
-
+let sortDirection = {};
 // fetch data from API - from https://randomuser.me/
 async function fetchData() {
     spinner.style.display = 'flex'; // show spinner
@@ -22,8 +23,9 @@ async function fetchData() {
         const response = await fetch('https://randomuser.me/api/?results=50');
         const jsonData = await response.json();
         data = jsonData.results;
-        console.log(data) // grab the data we need from here
-        displayTable(data)
+        // console.log(data) // grab the data we need from here
+        sortedData = [...data];
+        displayTable(sortedData)
         updatePaginationButtons();
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -56,11 +58,66 @@ function displayTable(dataToDisplay){
 
 }
 
+// Sort table by column index
+function sortTable(columnIndex){
+    clearSortIcons();
+    if(!sortDirection[columnIndex]){
+        sortDirection[columnIndex] = 'asc';
+    }
+    console.log(columnIndex)
+    sortedData = [...data].sort((a, b) => {
+        let valA,valB;
+        switch (columnIndex) {
+            case 0:
+                valA = `${a.name.first} ${a.name.last}`;
+                valB = `${b.name.first} ${b.name.last}`;
+                break;
+            case 1:
+                valA = a.email;
+                valB = b.email;
+                break;
+            case 2:
+                valA = a.login.username;
+                valB = b.login.username;
+                break;
+            case 3:
+                valA = a.location.country;
+                valB = b.location.country;
+                break;
+            default:
+                break;
+        }
+        if (sortDirection[columnIndex] === 'asc') {
+            return valA.localeCompare(valB);
+        } else {
+            return valB.localeCompare(valA);
+        }
+    });
+    sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc'?'desc':'asc';
+    // console.log(sortDirection)
+    updateSortIcon(columnIndex,sortDirection[columnIndex]);
+    displayTable(sortedData)
+}
+
+// clear sort icons for all columns
+function clearSortIcons() {
+    for ( let i=0;i<4;i++){
+        const icon = document.getElementById(`icon-${i}`);
+        icon.className = 'fas fa-sort';
+    }
+}
+
+// Update the sort icon based on sort direction
+function updateSortIcon(columnIndex, direction) {
+    const icon = document.getElementById(`icon-${columnIndex}`);
+    icon.className = direction === 'asc' ? 'fas fa-sort-down' : 'fas fa-sort-up';
+}
+
 // Previous Page
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
-        displayTable(data);
+        displayTable(sortedData);
         updatePaginationButtons();
     }
 }
@@ -69,7 +126,7 @@ function prevPage() {
 function nextPage() {
     if (currentPage * rowsPerPage < data.length) {
         currentPage++;
-        displayTable(data);
+        displayTable(sortedData);
         updatePaginationButtons();
     }
 }
@@ -78,7 +135,7 @@ function nextPage() {
 function updatePaginationButtons() {
     pageNumber.innerText = currentPage;
     prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage * rowsPerPage >= data.length;
+    nextBtn.disabled = currentPage * rowsPerPage >= sortedData.length;
 }
 
 // startup
