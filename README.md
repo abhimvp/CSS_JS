@@ -20,3 +20,13 @@ All the resources needed for the course can be found in this [Course Handbook](h
 
 - let's look into [documentation](https://developer.chrome.com/docs/devtools/overview)
 - box-shadow feature in chromedevtools and how to play around other tools [link](https://academy.zerotomastery.io/courses/front-end-projects/lectures/58383348)
+
+## Typing Test - Project
+
+- As usual let's make use of template folder to setup our project and copy it and paste and rename it to `Typing-test`
+- we can make use of autocompletions in vscode type in `div#text-container` and enter gives us <div id="text-container"></div>
+- After building out MAIN UI components:
+
+  ![alt text](Images/Typing-Test/image.png)
+
+- 
