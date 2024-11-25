@@ -36,4 +36,8 @@ All the resources needed for the course can be found in this [Course Handbook](h
   ![alt text](Images/Typing-Test/image_1.png)
 
 - Now we need to listen to key strokes , add an event listener to our document listening to the key down event , we will listening if we're backspacing or we're gonna enter and add some variables to track what has been typed and what index we're at our character and split our longtext string into an array of single characters so we can track that and track errors and scroll enough text as we type on characters far enough to see another characters we need to be typing
-- Timer logic and calculate score 
+- Timer logic and calculate score
+
+## Professional Table (Responsiveness, Dark Mode + more)
+
+- imported font style from google fonts - Roboto and added it to styles.css using `@import url` & added sans-serif as a fallback
