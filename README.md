@@ -41,3 +41,4 @@ All the resources needed for the course can be found in this [Course Handbook](h
 ## Professional Table (Responsiveness, Dark Mode + more)
 
 - imported font style from google fonts - Roboto and added it to styles.css using `@import url` & added sans-serif as a fallback
+- Mobile UI
