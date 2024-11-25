@@ -8,6 +8,8 @@ const pageNumber = document.getElementById('page-number');
 
 
 let data = []
+let currentPage = 1;
+const rowsPerPage = 10;
 
 // fetch data from API - from https://randomuser.me/
 async function fetchData() {
@@ -22,6 +24,7 @@ async function fetchData() {
         data = jsonData.results;
         console.log(data) // grab the data we need from here
         displayTable(data)
+        updatePaginationButtons();
     } catch (error) {
         console.error('Error fetching data:', error);
     } finally {
@@ -33,8 +36,13 @@ async function fetchData() {
 
 // Display table data
 function displayTable(dataToDisplay){
+    // we're going to call this everytime we change pages
     tableBody.innerText = ''; // clear table body
-    dataToDisplay.forEach(user => {
+    const start = (currentPage-1)*rowsPerPage;
+    const end = start + rowsPerPage;
+    console.log('start',start,'end', end)
+    const paginatedItems = dataToDisplay.slice(start, end);
+    paginatedItems.forEach(user => {
         const row = 
             `<tr>
                 <td data-lable="Name">${user.name.first} ${user.name.last}</td>
@@ -46,6 +54,31 @@ function displayTable(dataToDisplay){
 
     });
 
+}
+
+// Previous Page
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayTable(data);
+        updatePaginationButtons();
+    }
+}
+
+// next page
+function nextPage() {
+    if (currentPage * rowsPerPage < data.length) {
+        currentPage++;
+        displayTable(data);
+        updatePaginationButtons();
+    }
+}
+
+// update pagination buttons
+function updatePaginationButtons() {
+    pageNumber.innerText = currentPage;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage * rowsPerPage >= data.length;
 }
 
 // startup

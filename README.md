@@ -43,3 +43,4 @@ All the resources needed for the course can be found in this [Course Handbook](h
 - imported font style from google fonts - Roboto and added it to styles.css using `@import url` & added sans-serif as a fallback
 - Mobile UI
 - Fetching random user data
+- Pagination JS - only have 10 results in the first page
