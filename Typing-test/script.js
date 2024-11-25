@@ -37,6 +37,9 @@ let currentCharIndex = 0;
 let errors = 0;
 let longText = generateLongText();
 // console.log(longText);
+let timeLeft = 6;
+let timerInterval; // run this interval every one second
+let typingStarted = false;
 textContainer.textContent = longText;
 
 // shuffle the words array
@@ -57,8 +60,43 @@ function generateLongText(){
     return longText;
 }
 
+// start countdown timer 
+function startTimer(){
+    if(!typingStarted){
+        typingStarted = true;
+        timerInterval = setInterval(()=>{
+            timeLeft--;
+            timerElement.textContent = `Time Left: ${timeLeft}s`;
+            if (timeLeft <= 0){
+                clearInterval(timerInterval);
+                endTest();
+            }
+        }, 1000)
+    }
+    
+}
+
+// end the test to display the final score 
+function endTest(){
+    // alert('Test is over!')
+    timerElement.textContent = `Time's up!`;
+    finalScoreElement.textContent = `Final WPM: ${calculateWPM()}`;
+    textContainer.style.display = 'none';
+    tryAgainButton.style.display = 'block';
+    // calculateWPM();
+}
+
+// calculate words per minute with error adjustment
+function calculateWPM(){
+    const wordsTyped = totalTyped.trim().split(/\s+/).length;
+    // console.log('wordsTyped : ', wordsTyped , ' data ', totalTyped.trim().split(/\s+/))
+    const baseWPM = Math.round(wordsTyped / 6)*60;
+    const adjustedWPM = Math.max(0, baseWPM - errors);
+    return adjustedWPM
+}
 // Handle typing over displayed text and scrolling
 document.addEventListener('keydown',(e)=>{
+    startTimer();
     if(e.key === 'Backspace'){
         if (totalTyped.length>0){
             currentCharIndex = Math.max(0, currentCharIndex-1)
