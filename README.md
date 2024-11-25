@@ -32,4 +32,7 @@ All the resources needed for the course can be found in this [Course Handbook](h
 - `Shuffle & Generate Text JS`: Above UI is sorted out , let's get into functionality.
 - We will be making use non-repeating words array from the author [repo](https://github.com/JacintoDesign/typing-test/blob/main/words.json) and copy the content from that file and add them into our project script.js file.
 - added the long text from the above words into the text-container
+
   ![alt text](Images/Typing-Test/image_1.png)
+
+- Now we need to listen to key strokes , add an event listener to our document listening to the key down event , we will listening if we're backspacing or we're gonna enter and add some variables to track what has been typed and what index we're at our character and split our longtext string into an array of single characters so we can track that and track errors and scroll enough text as we type on characters far enough to see another characters we need to be typing
