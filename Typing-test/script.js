@@ -37,10 +37,10 @@ let currentCharIndex = 0;
 let errors = 0;
 let longText = generateLongText();
 // console.log(longText);
-let timeLeft = 6;
+let timeLeft = 60;
 let timerInterval; // run this interval every one second
 let typingStarted = false;
-textContainer.textContent = longText;
+// textContainer.textContent = longText;
 
 // shuffle the words array
 function shuffleArray(array) {
@@ -90,7 +90,7 @@ function endTest(){
 function calculateWPM(){
     const wordsTyped = totalTyped.trim().split(/\s+/).length;
     // console.log('wordsTyped : ', wordsTyped , ' data ', totalTyped.trim().split(/\s+/))
-    const baseWPM = Math.round(wordsTyped / 6)*60;
+    const baseWPM = Math.round(wordsTyped / 60)*60;
     const adjustedWPM = Math.max(0, baseWPM - errors);
     return adjustedWPM
 }
@@ -136,3 +136,49 @@ document.addEventListener('keydown',(e)=>{
         textContainer.scrollLeft = scrollAmount;
     }
 })
+
+// Reset the test 
+function resetTest(){
+    totalTyped = '';
+    currentCharIndex = 0;
+    errors = 0;
+    longText = generateLongText();
+    timeLeft = 60;
+    timerElement.textContent = `Time Left: ${timeLeft}s`;
+    textContainer.textContent = longText;
+    textContainer.style.display = 'block';
+    tryAgainButton.style.display = 'none';
+    finalScoreElement.textContent = '';
+    typingStarted = false;
+    clearInterval(timerInterval);
+    textContainer.scrollLeft = 0;
+}
+
+// initialize the test
+function init(){
+    if (isMobileDevice()){
+        showMobileMessage();
+        
+    }else{
+        textContainer.innerText=longText;
+        timerElement.textContent = `Time Left: ${timeLeft}s`;
+    }
+    
+}
+
+// Try again button listener
+tryAgainButton.addEventListener('click', resetTest)
+
+// Detect if the device is mobile
+function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 800;
+}
+
+// Show message for mobile users
+function showMobileMessage() {
+    textContainer.textContent = "This test is designed for desktop use. Please use a desktop computer for the best experience.";
+    
+}
+
+// Startup
+init()
